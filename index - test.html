@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<!-- <link rel="stylesheet" href="css/demo.css" type="text/css"> -->
+<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="css/zTreeStyle/animate.css" type="text/css">
+<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="js/jquery.ztree.excheck.js"></script>
+<!--
+<script type="text/javascript" src="js/jquery.ztree.exedit.js"></script>
+-->
+<SCRIPT type="text/javascript">
+	var setting = {
+		treeObj : null,
+		check: {
+			enable: true
+		},
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "id",
+				pIdKey: "pId",
+				rootPId: 0
+			}
+		},
+		callback: {
+			onCheck: zTreeOnCheck
+		},
+		view: {
+			showLine: false,
+			showIcon: false,
+			showTitle: false,
+			// fontCss : {color:"red"}
+		}
+		
+	};
+	/*
+		{"id":"自身id","pId":"父亲id","securityOptions":[],"corpCode":"","PERMITID":"","name":"名称","PROJECTNAME":"","corpId":""}
+	*/
+	var zNodes =[
+		{"id":"0","pId":"","securityOptions":[],"corpCode":"","PERMITID":"","name":"村","PROJECTNAME":"","corpId":""},
+
+		{"id":"1","pId":"0","securityOptions":[],"corpCode":"","PERMITID":"","name":"老王家","PROJECTNAME":"","corpId":""},
+		{"id":"2","pId":"0","securityOptions":[],"corpCode":"","PERMITID":"","name":"老李家","PROJECTNAME":"","corpId":""},
+		{"id":"3","pId":"0","securityOptions":[],"corpCode":"","PERMITID":"","name":"老赵家","PROJECTNAME":"","corpId":""},
+
+		{"id":"11","pId":"1","securityOptions":[],"corpCode":"","PERMITID":"","name":"隔壁老王","PROJECTNAME":"","corpId":""},
+		{"id":"21","pId":"2","securityOptions":[],"corpCode":"","PERMITID":"","name":"老李（绿）","PROJECTNAME":"","corpId":""},
+		{"id":"22","pId":"2","securityOptions":[],"corpCode":"","PERMITID":"","name":"老李他媳妇","PROJECTNAME":"","corpId":""},
+		{"id":"23","pId":"2","securityOptions":[],"corpCode":"","PERMITID":"","name":"小李（雾）","PROJECTNAME":"","corpId":""},
+		{"id":"31","pId":"3","securityOptions":[],"corpCode":"","PERMITID":"","name":"炮姐","PROJECTNAME":"","corpId":""}
+		]
+	
+	var code;
+	
+	function setCheck() {
+		var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			type = {Y: "ps", N: "ps"}
+		zTree.setting.check.chkboxType = type;
+		zTree.expandAll(false); //全部展开
+		showCode('setting.check.chkboxType = { "Y" : "' + type.Y + '", "N" : "' + type.N + '" };');
+		minejs();
+	}
+	function showCode(str) {
+		if (!code) code = $("#code");
+		code.empty();
+		code.append("<li>"+str+"</li>");
+	}
+
+	function zTreeOnCheck(event, treeId, treeNode) {
+		getSelectedNodes();
+		//当前被选中对象携带参数
+		// console.log(treeNode.tId + ", " + treeNode.name + "," + treeNode.checked);
+	};
+	
+
+	function getSelectedNodes(){
+		// var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+		// var selectedNode = zTree.getCheckedNodes();
+
+		// 获取当前被勾选的节点集合
+		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+		var nodes = treeObj.getCheckedNodes(true);
+	}
+
+	$(document).ready(function(){
+		$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		setCheck();
+		$("#py").bind("change", setCheck);
+		$("#sy").bind("change", setCheck);
+		$("#pn").bind("change", setCheck);
+		$("#sn").bind("change", setCheck);
+		$('.ztree li span.button.switch').click(function(){
+			minejs();
+		})
+	});
+	function minejs(){
+		
+	}
+</SCRIPT>
+</HEAD>
+<style>
+.tabbox{width:900px; margin:10% auto; padding: 15px; height:600px; background: white;display: none}
+.tabbox li,.tabbox ul{list-style-type: none}
+.tabbox ul{margin: 0; padding: 0}
+.tabbox .tabnav,.tabbox .tabcon{width: 98%;display: block;float: left;}
+.tabbox .tabnav{border-bottom: 1px solid #ddd}
+.tabbox .tabnav li{ position: relative; cursor: pointer; float: left; border-top-left-radius:5px;border-top-right-radius:5px; margin:0px;padding: 8px 26px; color: #337ab7;border:1px solid #fff; }
+.tabnav li.active{border:1px solid #ddd; border-bottom:none; color: #555;}
+.tabnav li.active:before{content:''; width: 100%; height: 1px; bottom: -2px; left: 0; position: absolute;background: white; }
+.tabbox .tabcon li{ display: none; padding: 10px; width: 100%; height: 540px; overflow: auto;}
+.tabbox .tabcon li:first-child{display: block}
+.mask{position: fixed; top: 0; left: 0; width:100%; height: 100%; background: rgb(212, 212, 212); display: none}
+</style>
+<BODY>
+<div class="content_wrap">
+<div class="zTreeDemoBackground left">
+	<ul id="treeDemo" class="ztree"></ul>
+	<!-- <ul id="selectObj"></ul> -->
+</div>
+<div class="mask">
+	<div class="tabbox">
+		<ul class="tabnav">
+			<li class="active">施工前</li>
+			<li>施工中</li>
+			<li>施工后</li>
+		</ul>
+		<ul class="tabcon">
+			<li>
+	
+					施工前 <br>
+			</li>
+			<li>
+					施工中
+			</li>
+			<li>
+					施工后
+			</li>
+		</ul>
+	</div>
+</div>
+</div>
+</BODY>
+<script>
+$(function(){
+$('.tabnav li').click(function(){
+	$('.tabnav li').removeClass('active')
+	$(this).addClass('active');
+	var pd = $(this).index();
+	$('.tabcon li').hide()
+	$('.tabcon li').eq(pd).show();
+})
+})
+</script>
+
+<div style="text-align:center;margin:10px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+</div>
+</HTML>
