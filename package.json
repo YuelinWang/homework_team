@@ -16,7 +16,7 @@
   "author": "沈阳航空航天大学计算机学院",
   "devDependencies": {
     "asar": "^2.0.1",
-    "electron": "^6.0.6",
+    "electron": "^7.2.4",
     "electron-builder": "^21.2.0",
     "electron-packager": "^14.1.0",
     "electron-prebuilt": "^1.4.13",
